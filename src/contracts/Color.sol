@@ -5,6 +5,7 @@ import "./ERC721Full.sol";
 contract Color is ERC721Full {
   string[] public colors;                 //define an array which will contain all the token
   mapping(string => bool) _colorExists;   //to avoid duplication
+  mapping(address => string[]) owners;
   address public creator;                 //To save the creator of the content
   string[] public sharesValue;            //To find what the creator offering in returns.
   uint256 public initialPrice;            //this will be define by creator that for how much he is offering the nft
@@ -26,7 +27,12 @@ contract Color is ERC721Full {
     _mint(msg.sender, _id);                                 //_mint is global function required from ERC721Full
      creator = msg.sender;                                  //store the address of the person who mint it
      owner = creator;
-    _colorExists[_color] = true;                            //set the particular code to true so that it is not use again
+    _colorExists[_color] = true;
+    if((length(owners[msg.sender]) > 0) {
+      owners[msg.sender].append(_color);
+    } else {
+      owners[msg.sender]= [_color];
+    }                           //set the particular code to true so that it is not use again
   }
 /*   function store(string memory numSV) public {
       sharesValue.push(numSV);
